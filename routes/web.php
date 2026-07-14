@@ -1,15 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\FooterController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactUsController;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\FeatureController;
-use App\Http\Controllers\FooterController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SliderController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
@@ -68,6 +70,8 @@ Route::group(['prefix' => 'products'], function () {
     Route::delete('/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
 });
 
+Route::get('/orders', [OrderController::class, 'index'])->name('order_index');
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transaction_index');
 // Route::group(['prefix' => 'coupons'], function () {
 //     Route::get('/', [CouponController::class, 'index'])->name('coupon.index');
 //     Route::get('/create', [CouponController::class, 'create'])->name('coupon.create');

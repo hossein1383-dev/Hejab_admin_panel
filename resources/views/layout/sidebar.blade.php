@@ -4,7 +4,8 @@
             <li class="nav-item">
                 <a class="nav-link 
                 {{ request()->is('/') ? 'active' : '' }}
-                " aria-current="page" href="{{ route('dashboard') }}">
+                "
+                    aria-current="page" href="{{ route('dashboard') }}">
                     <i class="bi bi-grid me-2"></i>
                     داشبورد
                 </a>
@@ -18,28 +19,32 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link
-                {{ request()->is('products*') ? 'active' : ''}}
-                " href="{{ route('product.index') }}">
+                {{ request()->is('products*') ? 'active' : '' }}
+                "
+                    href="{{ route('product.index') }}">
                     <i class="bi bi-box-seam me-2"></i>
                     محصولات
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link
-                {{ request()->is('categories*') ? 'active' : ''}}
-                " href="{{ route('category.index') }}">
+                {{ request()->is('categories*') ? 'active' : '' }}
+                "
+                    href="{{ route('category.index') }}">
                     <i class="bi bi-grid-3x3-gap me-2"></i>
                     دسته بندی
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->is('orders') ? 'active' : '' }} " 
+                    href="{{ route('order_index') }}">
                     <i class="bi bi-basket me-2"></i>
                     سفارشات
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->is('transactions*') ? 'active' : '' }}" 
+                    href="{{ route('transaction_index') }}">
                     <i class="bi bi-currency-dollar me-2"></i>
                     تراکنش ها
                 </a>
@@ -52,11 +57,12 @@
                     تخفیف ها
                 </a>
             </li> --}}
-            
+
             <li class="nav-item">
                 <a class="nav-link
-                {{ request()->is('contact-us*') ? 'active' : ''}}
-                " href="{{ route('contact.index') }}">
+                {{ request()->is('contact-us*') ? 'active' : '' }}
+                "
+                    href="{{ route('contact.index') }}">
                     <i class="bi bi-chat-left-text me-2"></i>
                     پیام های ارتباط با ما
                 </a>
@@ -68,7 +74,8 @@
                 {{ request()->is('features*') ? 'active' : '' }}
                 {{ request()->is('about-us*') ? 'active' : '' }}
                 {{ request()->is('footer*') ? 'active' : '' }}
-                " href="#" role="button" data-bs-toggle="dropdown">
+                "
+                    href="#" role="button" data-bs-toggle="dropdown">
                     <i class="bi bi-gear  me-2"></i>
                     تنظیمات سایت
                 </a>

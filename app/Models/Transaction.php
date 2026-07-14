@@ -12,4 +12,28 @@ class Transaction extends Model
 
     protected $table = 'transactions';
     protected $guarded = [];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function getStatusAttribute($status)
+    {
+        switch ($status) {
+            case '0':
+                $status = 'ناموفق';
+                break;
+            case '1':
+                $status = 'موفق';
+                break;
+        }
+        return $status;
+    }
+
+    public function scopeGetData($query, $month, $status)
+    {
+        $verta = verta()->startMonth()->subMonths($month - 1);
+        return $query->where('created_at', '>', $verta->toCarbon())->where('status', $status)->get();
+    }
 }
