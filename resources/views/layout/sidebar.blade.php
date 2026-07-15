@@ -12,8 +12,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-people me-2"></i>
+                <a class="nav-link
+                {{ request()->is('users*') ? 'active' : '' }}
+                "
+                    href="{{ route('user.index') }}">
+                    <i class="bi bi-box-seam me-2"></i>
                     کاربران
                 </a>
             </li>
@@ -36,14 +39,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('orders') ? 'active' : '' }} " 
-                    href="{{ route('order_index') }}">
+                <a class="nav-link {{ request()->is('orders') ? 'active' : '' }} " href="{{ route('order_index') }}">
                     <i class="bi bi-basket me-2"></i>
                     سفارشات
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('transactions*') ? 'active' : '' }}" 
+                <a class="nav-link {{ request()->is('transactions*') ? 'active' : '' }}"
                     href="{{ route('transaction_index') }}">
                     <i class="bi bi-currency-dollar me-2"></i>
                     تراکنش ها

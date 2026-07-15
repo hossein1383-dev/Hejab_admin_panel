@@ -27,11 +27,13 @@
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        {{-- <div class="w-100"></div>
+        <div class="w-100"></div>
         <div class="navbar-nav">
-            <div class="nav-item text-nowrap d-flex align-items-center">
-                <span class="nav-link text-white"></span>
-                <a class="nav-link text-white px-3" href="#">خروج</a>
-            </div>
-        </div> --}}
+            @auth
+                <div class="nav-item text-nowrap d-flex align-items-center">
+                    <span class="nav-link text-white">{{ auth()->user()->name }}</span>
+                    <a class="nav-link text-white px-3" href="{{ route('auth.logout') }}">خروج</a>
+                </div>
+            @endauth
+        </div>
     </header>
