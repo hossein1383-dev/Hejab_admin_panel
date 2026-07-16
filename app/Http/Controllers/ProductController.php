@@ -49,7 +49,7 @@ class ProductController extends Controller
 
         $primaryImageName = Carbon::now()->microsecond . '-' . $request->primary_image->getClientOriginalName();
 
-        $request->primary_image->storeAs('images/products/', $primaryImageName);
+        Storage::disk('public')->putFileAs('images/products', $request->file('primary_image'), $primaryImageName);
 
         $fileNameImages = [];
 
