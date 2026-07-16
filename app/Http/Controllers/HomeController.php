@@ -25,17 +25,20 @@ class HomeController extends Controller
         $amount = $transactions->map(function ($item) {
             return $item->amount;
         });
-        // dd($monthName, $amount);
+
+        // تعریف اولیه $result به عنوان آرایه خالی
+        $result = [];
 
         foreach ($monthName as $i => $v) {
             if (!isset($result[$v])) {
                 $result[$v] = 0;
             }
-
             $result[$v] += $amount[$i];
         }
 
-        if (count($result) != $month) {
+        // اگر $result خالی است یا تعداد آن با $month برابر نیست
+        if (empty($result) || count($result) != $month) {
+            $shamsiMonths = [];
             for ($i = 0; $i < $month; $i++) {
                 $monthName = verta()->subMonths($i)->format('%B %Y');
                 $shamsiMonths[$monthName] = 0;
@@ -46,7 +49,6 @@ class HomeController extends Controller
             foreach ($data as $month => $val) {
                 array_push($finalResult, ['month' => $month, 'value' => $val]);
             }
-
             return $finalResult;
         }
 
@@ -54,8 +56,6 @@ class HomeController extends Controller
         foreach ($result as $month => $val) {
             array_push($finalResult, ['month' => $month, 'value' => $val]);
         }
-
         return $finalResult;
     }
 }
-
