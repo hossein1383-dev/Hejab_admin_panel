@@ -85,7 +85,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="#" class="btn btn-sm btn-outline-info ms-2">ویرایش</a>
+                                <a href="{{ route('orders.edit', $order) }}" class="btn btn-sm btn-outline-info ms-2">
+                                    ویرایش
+                                </a>
                         </td>
                     </tr>
                 @endforeach

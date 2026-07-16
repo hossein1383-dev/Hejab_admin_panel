@@ -72,8 +72,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::delete('/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
     });
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', [OrderController::class, 'index'])->name('order_index');
+        Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
+    });
 
-    Route::get('/orders', [OrderController::class, 'index'])->name('order_index');
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transaction_index');
 
     Route::group(['prefix' => 'users'], function () {
