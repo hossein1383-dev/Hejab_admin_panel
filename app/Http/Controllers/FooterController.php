@@ -22,7 +22,7 @@ class FooterController extends Controller
     {
         $request->validate([
             'contact_address' => 'required|string',
-            'contact_phone' => 'required|string',
+            'contact_phone' => ['required', 'regex:/^09[0|1|2|3][0-9]{8}$/'],
             'contact_email' => 'required|string',
             'title' => 'required|string',
             'body' => 'required|string',
