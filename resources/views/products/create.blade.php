@@ -25,7 +25,9 @@
             }))
         });
 
-        jalaliDatepicker.startWatch({time:true});
+        jalaliDatepicker.startWatch({
+            time: true
+        });
     </script>
 @endsection
 
@@ -159,10 +161,61 @@
             </div>
         </div>
 
+        <!-- ===== بخش سایزها ===== -->
+        <div class="col-12">
+            <hr>
+            <h5 class="fw-bold">سایزهای موجود</h5>
+            <div class="row">
+                @php
+                    $sizesList = $sizes ?? ['S', 'M', 'L', 'XL', 'XXL'];
+                @endphp
+
+                @foreach ($sizesList as $size)
+                    <div class="col-md-2 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="sizes[{{ $size }}][checked]"
+                                id="size_{{ $size }}" value="1"
+                                {{ old("sizes.{$size}.checked") ? 'checked' : '' }}>
+                            <label class="form-check-label" for="size_{{ $size }}">
+                                {{ $size }}
+                            </label>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         <div>
             <button type="submit" class="btn btn-outline-dark mt-3">
                 ایجاد محصول
             </button>
         </div>
     </form>
+
+    <!-- اسکریپت برای فعال/غیرفعال کردن فیلد موجودی بر اساس چک‌باکس -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.size-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                // هنگام بارگذاری، وضعیت اولیه را اعمال کن
+                toggleStockInput(checkbox);
+
+                // افزودن رویداد تغییر
+                checkbox.addEventListener('change', function() {
+                    toggleStockInput(this);
+                });
+            });
+
+            function toggleStockInput(checkbox) {
+                const stockInput = checkbox.closest('.col-md-2').querySelector('.size-stock');
+                if (checkbox.checked) {
+                    stockInput.disabled = false;
+                    stockInput.focus();
+                } else {
+                    stockInput.disabled = true;
+                    stockInput.value = ''; // اختیاری: پاک کردن مقدار
+                }
+            }
+        });
+    </script>
 @endsection

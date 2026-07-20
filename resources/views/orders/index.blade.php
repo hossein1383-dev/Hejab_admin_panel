@@ -59,6 +59,7 @@
                                                                 <th>نام</th>
                                                                 <th>قیمت</th>
                                                                 <th>تعداد</th>
+                                                                <th>سایز</th>
                                                                 <th>قیمت کل</th>
                                                             </tr>
                                                         </thead>
@@ -74,6 +75,9 @@
                                                                     <td>{{ $item->price }} تومان</td>
                                                                     <td>
                                                                         {{ $item->quantity }}
+                                                                    </td>
+                                                                    <td>
+                                                                        {{ $item->size }}
                                                                     </td>
                                                                     <td>{{ number_format($item->subtotal) }} تومان</td>
                                                                 </tr>

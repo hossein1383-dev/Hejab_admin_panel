@@ -25,7 +25,9 @@
             }))
         });
 
-        jalaliDatepicker.startWatch({time:true});
+        jalaliDatepicker.startWatch({
+            time: true
+        });
     </script>
 @endsection
 
@@ -34,7 +36,8 @@
         <h4 class="fw-bold">ویرایش محصول</h4>
     </div>
 
-    <form action="{{ route('product.update', ['product' => $product->id]) }}" enctype="multipart/form-data" method="POST" class="row gy-4 mb-5">
+    <form action="{{ route('product.update', ['product' => $product->id]) }}" enctype="multipart/form-data" method="POST"
+        class="row gy-4 mb-5">
         @csrf
         @method('PUT')
 
@@ -65,7 +68,7 @@
 
         <div class="col-md-3">
             <label class="form-label">نام</label>
-            <input name="name" type="text" value="{{ $product->name }}" class="form-control" />
+            <input name="name" type="text" value="{{ old('name', $product->name) }}" class="form-control" />
             <div class="form-text text-danger">
                 @error('name')
                     {{ $message }}
@@ -77,7 +80,8 @@
             <label class="form-label">دسته بندی</label>
             <select name="category_id" class="form-select">
                 @foreach ($categories as $category)
-                    <option {{ $product->category->id == $category->id ? 'selected' : '' }} value={{ $category->id }}>{{ $category->name }}</option>
+                    <option {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}
+                        value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
             <div class="form-text text-danger">
@@ -90,8 +94,8 @@
         <div class="col-md-3">
             <label class="form-label">وضعیت</label>
             <select name="status" class="form-select">
-                <option {{ $product->status == 1 ? 'selected' : '' }} value="1">فعال</option>
-                <option {{ $product->status == 0 ? 'selected' : '' }} value="0">غیر فعال</option>
+                <option {{ old('status', $product->status) == 1 ? 'selected' : '' }} value="1">فعال</option>
+                <option {{ old('status', $product->status) == 0 ? 'selected' : '' }} value="0">غیر فعال</option>
             </select>
             <div class="form-text text-danger">
                 @error('status')
@@ -102,7 +106,7 @@
 
         <div class="col-md-3">
             <label class="form-label">قیمت</label>
-            <input name="price" type="text" value="{{ $product->price }}" class="form-control" />
+            <input name="price" type="text" value="{{ old('price', $product->price) }}" class="form-control" />
             <div class="form-text text-danger">
                 @error('price')
                     {{ $message }}
@@ -112,7 +116,7 @@
 
         <div class="col-md-3">
             <label class="form-label">تعداد</label>
-            <input name="quantity" type="text" value="{{ $product->quantity }}" class="form-control" />
+            <input name="quantity" type="text" value="{{ old('quantity', $product->quantity) }}" class="form-control" />
             <div class="form-text text-danger">
                 @error('quantity')
                     {{ $message }}
@@ -122,7 +126,8 @@
 
         <div class="col-md-3">
             <label class="form-label">قیمت حراجی</label>
-            <input name="sale_price" type="text" value="{{ $product->sale_price }}" class="form-control" />
+            <input name="sale_price" type="text" value="{{ old('sale_price', $product->sale_price) }}"
+                class="form-control" />
             <div class="form-text text-danger">
                 @error('sale_price')
                     {{ $message }}
@@ -132,7 +137,9 @@
 
         <div class="col-md-3">
             <label class="form-label">تاریخ شروع حراجی</label>
-            <input data-jdp name="date_on_sale_from" value="{{ $product->date_on_sale_from != null ? getJalaliDate($product->date_on_sale_from) : '' }}" type="text" class="form-control" />
+            <input data-jdp name="date_on_sale_from"
+                value="{{ old('date_on_sale_from', $product->date_on_sale_from != null ? getJalaliDate($product->date_on_sale_from) : '') }}"
+                type="text" class="form-control" />
             <div class="form-text text-danger">
                 @error('date_on_sale_from')
                     {{ $message }}
@@ -142,7 +149,9 @@
 
         <div class="col-md-3">
             <label class="form-label">تاریخ پایان حراجی</label>
-            <input data-jdp name="date_on_sale_to" value="{{ $product->date_on_sale_to != null ? getJalaliDate($product->date_on_sale_to) : '' }}" type="text" class="form-control" />
+            <input data-jdp name="date_on_sale_to"
+                value="{{ old('date_on_sale_to', $product->date_on_sale_to != null ? getJalaliDate($product->date_on_sale_to) : '') }}"
+                type="text" class="form-control" />
             <div class="form-text text-danger">
                 @error('date_on_sale_to')
                     {{ $message }}
@@ -152,11 +161,36 @@
 
         <div class="col-md-12">
             <label class="form-label">توضیحات</label>
-            <textarea name="description" rows="5" class="form-control">{{ $product->description }}</textarea>
+            <textarea name="description" rows="5" class="form-control">{{ old('description', $product->description) }}</textarea>
             <div class="form-text text-danger">
                 @error('description')
                     {{ $message }}
                 @enderror
+            </div>
+        </div>
+
+        <!-- ===== بخش سایزها ===== -->
+        <div class="col-12">
+            <hr>
+            <h5 class="fw-bold">سایزهای موجود</h5>
+            <div class="row">
+                @php
+                    $sizesList = $sizes ?? ['S', 'M', 'L', 'XL', 'XXL'];
+                    $existing = $existingSizes ?? []; // آرایه‌ای از سایزهای موجود (کلید = size_name)
+                @endphp
+
+                @foreach ($sizesList as $size)
+                    <div class="col-md-2 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="sizes[{{ $size }}][checked]"
+                                id="size_{{ $size }}" value="1"
+                                {{ old("sizes.{$size}.checked", isset($existing[$size]) ? 1 : 0) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="size_{{ $size }}">
+                                {{ $size }}
+                            </label>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -166,4 +200,29 @@
             </button>
         </div>
     </form>
+
+    <!-- اسکریپت برای فعال/غیرفعال کردن فیلد موجودی بر اساس چک‌باکس -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.size-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                // وضعیت اولیه را اعمال کن
+                toggleStockInput(checkbox);
+
+                checkbox.addEventListener('change', function() {
+                    toggleStockInput(this);
+                });
+            });
+
+            function toggleStockInput(checkbox) {
+                const stockInput = checkbox.closest('.col-md-2').querySelector('.size-stock');
+                if (checkbox.checked) {
+                    stockInput.disabled = false;
+                } else {
+                    stockInput.disabled = true;
+                    stockInput.value = ''; // پاک کردن مقدار برای جلوگیری از ارسال
+                }
+            }
+        });
+    </script>
 @endsection
