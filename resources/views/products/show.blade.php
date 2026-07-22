@@ -62,16 +62,10 @@
                 class="form-control" />
         </div>
 
-        <div class="col-md-12">
-            <label class="form-label">توضیحات</label>
-            <textarea disabled rows="5" class="form-control">{{ $product->description }}</textarea>
-        </div>
 
-        <!-- ===== نمایش سایزها و موجودی ===== -->
-        <!-- ===== نمایش سایزها ===== -->
         <div class="product-sizes mt-4">
-            <h5>سایزهای موجود:</h5>
             @if ($product->sizes->isNotEmpty())
+                <h5>سایزهای موجود:</h5>
                 <div class="d-flex flex-wrap gap-3 mt-2" id="sizeCheckboxes">
                     @foreach ($product->sizes as $size)
                         <div class="form-check">
@@ -88,9 +82,15 @@
                     @endforeach
                 </div>
             @else
-        
             @endif
         </div>
+
+        <div class="col-md-12">
+            <label class="form-label">توضیحات</label>
+            <textarea disabled rows="5" class="form-control">{{ $product->description }}</textarea>
+        </div>
+
+
 
         <div class="col-md-12">
             <label class="form-label">تصاویر دیگر</label>

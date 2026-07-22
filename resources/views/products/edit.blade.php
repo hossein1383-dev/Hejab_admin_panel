@@ -158,28 +158,10 @@
                 @enderror
             </div>
         </div>
-
-        <div class="col-md-12">
-            <label class="form-label">توضیحات</label>
-            <textarea name="description" rows="5" class="form-control">{{ old('description', $product->description) }}</textarea>
-            <div class="form-text text-danger">
-                @error('description')
-                    {{ $message }}
-                @enderror
-            </div>
-        </div>
-
-        <!-- ===== بخش سایزها ===== -->
         <div class="col-12">
-            <hr>
-            <h5 class="fw-bold">سایزهای موجود</h5>
+            <h5>سایزهای موجود</h5>
             <div class="row">
-                @php
-                    $sizesList = $sizes ?? ['S', 'M', 'L', 'XL', 'XXL'];
-                    $existing = $existingSizes ?? []; // آرایه‌ای از سایزهای موجود (کلید = size_name)
-                @endphp
-
-                @foreach ($sizesList as $size)
+                @foreach ($sizes as $size)
                     <div class="col-md-2 mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="sizes[{{ $size }}][checked]"
@@ -193,6 +175,19 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="col-md-12">
+            <label class="form-label">توضیحات</label>
+            <textarea name="description" rows="5" class="form-control">{{ old('description', $product->description) }}</textarea>
+            <div class="form-text text-danger">
+                @error('description')
+                    {{ $message }}
+                @enderror
+            </div>
+        </div>
+
+
+
 
         <div>
             <button type="submit" class="btn btn-outline-dark mt-3">
