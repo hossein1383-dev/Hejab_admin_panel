@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MigrateController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\TransactionController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/migrate', [MigrateController::class, 'migrateByDataBaseName'])->name('migrateByDataBaseName');
+    Route::get('/rollback', [MigrateController::class, 'rollBackByDataBaseName'])->name('rollBackByDataBaseName');
 
     Route::group(['prefix' => 'sliders'], function () {
         Route::get('/', [SliderController::class, 'index'])->name('slider.index');
