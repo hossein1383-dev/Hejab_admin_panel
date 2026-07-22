@@ -36,8 +36,12 @@
         <h4 class="fw-bold">ویرایش محصول</h4>
     </div>
 
-    <form action="{{ route('product.update', ['product' => $product->id]) }}" enctype="multipart/form-data" method="POST"
-        class="row gy-4 mb-5">
+    <form x-data="{
+        category: '{{ old('category_id', $product->category_id) }}',
+        sizes: @js($sizes),
+        selectedSizes: @js($selectedSizes)
+    }" action="{{ route('product.update', ['product' => $product->id]) }}"
+        enctype="multipart/form-data" method="POST" class="row gy-4 mb-5">
         @csrf
         @method('PUT')
 
@@ -78,10 +82,11 @@
 
         <div class="col-md-3">
             <label class="form-label">دسته بندی</label>
-            <select name="category_id" class="form-select">
+            <select name="category_id" class="form-select" x-model="category">
                 @foreach ($categories as $category)
-                    <option {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}
-                        value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}">
+                        {{ $category->name }}
+                    </option>
                 @endforeach
             </select>
             <div class="form-text text-danger">
@@ -160,19 +165,20 @@
         </div>
         <div class="col-12">
             <h5>سایزهای موجود</h5>
-            <div class="row">
-                @foreach ($sizes as $size)
+
+            <div class="d-flex flex-wrap mt-2">
+                <template x-for="size in (sizes[category] || [])" :key="size">
                     <div class="col-md-2 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="sizes[{{ $size }}][checked]"
-                                id="size_{{ $size }}" value="1"
-                                {{ old("sizes.{$size}.checked", isset($existing[$size]) ? 1 : 0) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="size_{{ $size }}">
-                                {{ $size }}
+                        <div>
+                            <input class="size-checkbox" type="checkbox" :id="'size_' + size"
+                                :name="'sizes[' + size + '][checked]'" value="1"
+                                :checked="selectedSizes.includes(size)">
+
+                            <label class="form-check-label" :for="'size_' + size" x-text="size">
                             </label>
                         </div>
                     </div>
-                @endforeach
+                </template>
             </div>
         </div>
 

@@ -16,7 +16,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(5);
+            $products = Product::latest()->paginate(6);
         return view('products.index', compact('products'));
     }
 
@@ -28,7 +28,10 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $sizes = config('sizes', ['S', 'M', 'L', 'XL', 'XXL']); // لیست سایزها
+        $sizes = [
+            1 => ['S', 'M', 'L', 'XL', 'XXL'],
+            3 => ['150', '155', '160', '165', '170', '175'],
+        ];
 
         return view('products.create', compact('categories', 'sizes'));
     }
@@ -118,12 +121,14 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
-        $sizes = config('sizes', ['S', 'M', 'L', 'XL', 'XXL']);
+        $sizes = [
+            1 => ['S', 'M', 'L', 'XL', 'XXL'],
+            3 => ['150', '155', '160', '165', '170', '175'],
+        ];
 
-        // سایزهای موجود برای این محصول (برای مشخص کردن وضعیت چک‌باکس‌ها)
-        $existingSizes = $product->sizes()->pluck('stock', 'size_name')->toArray();
+        $selectedSizes = $product->sizes()->where('stock', 1)->pluck('size_name')->toArray();
 
-        return view('products.edit', compact('product', 'categories', 'sizes', 'existingSizes'));
+        return view('products.edit', compact('product', 'categories', 'sizes', 'selectedSizes'));
     }
 
     public function update(Request $request, Product $product)

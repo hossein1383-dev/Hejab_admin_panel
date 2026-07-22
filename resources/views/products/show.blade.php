@@ -66,17 +66,15 @@
         <div class="product-sizes mt-4">
             @if ($product->sizes->isNotEmpty())
                 <h5>سایزهای موجود:</h5>
-                <div class="d-flex flex-wrap gap-3 mt-2" id="sizeCheckboxes">
+                <div class="d-flex flex-wrap gap-2 mt-2" id="sizeCheckboxes">
                     @foreach ($product->sizes as $size)
                         <div class="form-check">
-                            <input class="form-check-input size-checkbox" type="checkbox" name="size"
-                                value="{{ $size->size_name }}" id="size_{{ $size->size_name }}"
-                                {{ $size->stock == 0 ? 'disabled' : '' }}>
-                            <label class="form-check-label" for="size_{{ $size->size_name }}">
+                            <input class="size-checkbox" type="radio" name="size" value="{{ $size->size_name }}"
+                                id="size_{{ $size->size_name }}" {{ $size->stock == 0 ? 'disabled' : '' }}>
+
+                            <label class="form-check-label {{ $size->stock ? 'available-size' : '' }}"
+                                for="size_{{ $size->size_name }}">
                                 {{ $size->size_name }}
-                                <span class="badge {{ $size->stock ? 'bg-success' : 'bg-danger' }} ms-1">
-                                    {{ $size->stock ? 'موجود' : 'ناموجود' }}
-                                </span>
                             </label>
                         </div>
                     @endforeach

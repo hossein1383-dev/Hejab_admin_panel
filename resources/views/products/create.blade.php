@@ -36,7 +36,11 @@
         <h4 class="fw-bold">ایجاد محصول</h4>
     </div>
 
-    <form action="{{ route('product.store') }}" enctype="multipart/form-data" method="POST" class="row gy-4 mb-5">
+    <form x-data="{
+        category: '{{ old('category_id', $categories->first()->id) }}',
+        sizes: @js($sizes)
+    }" action="{{ route('product.store') }}" enctype="multipart/form-data" method="POST"
+        class="row gy-4 mb-5">
         @csrf
 
         <div class="col-md-12 mb-5">
@@ -76,7 +80,7 @@
 
         <div class="col-md-3">
             <label class="form-label">دسته بندی</label>
-            <select name="category_id" class="form-select">
+            <select name="category_id" class="form-select" x-model="category">
                 @foreach ($categories as $category)
                     <option value={{ $category->id }}>{{ $category->name }}</option>
                 @endforeach
@@ -151,20 +155,20 @@
             </div>
         </div>
         <div class="col-12">
-            <h5>سایزهای موجود</h5>
+            <h5>سایزها</h5>
+
             <div class="row">
-                @foreach ($sizes as $size)
-                    <div class="col-md-2 mb-3">
+                <template x-for="size in (sizes[category] || [])" :key="size">
+                    <div class="col-auto mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="sizes[{{ $size }}][checked]"
-                                id="size_{{ $size }}" value="1"
-                                {{ old("sizes.{$size}.checked") ? 'checked' : '' }}>
-                            <label class="form-check-label" for="size_{{ $size }}">
-                                {{ $size }}
+                            <input class="size-checkbox" type="checkbox" :id="'size_' + size"
+                                :name="'sizes[' + size + '][checked]'" value="1">
+
+                            <label class="form-check-label" :for="'size_' + size" x-text="size">
                             </label>
                         </div>
                     </div>
-                @endforeach
+                </template>
             </div>
         </div>
 
