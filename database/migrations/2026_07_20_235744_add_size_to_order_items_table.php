@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('order_items', function (Blueprint $table) {
             Schema::table('order_items', function (Blueprint $table) {
-                $table->string('size')->nullable()->after('product_id');
+                $table->string('size', 100)->nullable()->after('product_id');
             });
         });
     }

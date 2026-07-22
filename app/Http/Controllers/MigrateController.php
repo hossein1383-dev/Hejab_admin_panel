@@ -9,7 +9,7 @@ class MigrateController extends Controller
 {
     public function migrateByDataBaseName(Request $request)
     {
-        Artisan::call('migrate:status');
+        Artisan::call('migrate');
         dd(Artisan::output());
     }
 
